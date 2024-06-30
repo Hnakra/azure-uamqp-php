@@ -39,7 +39,7 @@ Consumer::Consumer(Session *session, std::string resourceName, std::string filte
     // source = messaging_create_source(("amqps://" + session->getConnection()->getHost() + "/" + resourceName).c_str());
     // source = messaging_create_source((resourceName).c_str());
 
-    // auto filterSet = amqpvalue_create_filter_set(amqpvalue_create_map());
+    auto filterSet = amqpvalue_create_filter_set(amqpvalue_create_map());
 
     // std::uint64_t timeNow = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     // std::string filterString = "amqp.annotation.x-opt-enqueuedtimeutc > " + std::to_string(timeNow);
@@ -47,14 +47,14 @@ Consumer::Consumer(Session *session, std::string resourceName, std::string filte
     // std::string filterString = "correlationId='123'";
 
     auto selectorFilterKey = amqpvalue_create_string("apache.org:selector-filter:string");
-    //auto selectorKey = amqpvalue_create_string("apache.org:selector-filter:string");
+    auto selectorKey = amqpvalue_create_string("apache.org:selector-filter:string");
     auto filterEntryValue = amqpvalue_create_string(filter.c_str());
     auto filterEntry =  amqpvalue_create_described(selectorFilterKey, filterEntryValue);
-    //amqpvalue_set_map_value(filterSet, selectorKey, filterEntry);
+    amqpvalue_set_map_value(filterSet, selectorKey, filterEntry);
 
     auto newSource = source_create();
     source_set_address(newSource, amqpvalue_create_string((resourceName).c_str()));
-    source_set_filter(newSource, filterEntry);
+    source_set_filter(newSource, filterSet);
     source = amqpvalue_create_source(newSource);
 
     target = messaging_create_target("ingress-rx");
