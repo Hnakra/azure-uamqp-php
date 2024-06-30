@@ -37,7 +37,7 @@ Consumer::Consumer(Session *session, std::string resourceName)
     this->resourceName = resourceName;
 
     // source = messaging_create_source(("amqps://" + session->getConnection()->getHost() + "/" + resourceName).c_str());
-    source = messaging_create_source((resourceName).c_str());
+    // source = messaging_create_source((resourceName).c_str());
 
     auto filterSet = amqpvalue_create_filter_set(amqpvalue_create_map());
 
@@ -50,7 +50,10 @@ Consumer::Consumer(Session *session, std::string resourceName)
     auto filterEntry =  amqpvalue_create_described(selectorFilterKey, filterEntryValue);
     amqpvalue_set_map_value(filterSet, selectorKey, filterEntry);
 
-    source_set_filter(source, filterSet);
+    auto newSource = source_create();
+    source_set_address(newSource, amqpvalue_create_string((resourceName).c_str()));
+    source_set_filter(newSource, filterSet);
+    source = amqpvalue_create_source(newSource);
 
     target = messaging_create_target("ingress-rx");
     link = link_create(session->getSessionHandler(), "receiver-link", role_receiver, source, target);
