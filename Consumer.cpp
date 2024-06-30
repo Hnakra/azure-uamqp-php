@@ -53,6 +53,9 @@ Consumer::Consumer(Session *session, std::string resourceName)
         throw Php::Exception("Could not create message receiver");
     }
 
+    AMQP_VALUE filter = amqpvalue_create_composite(amqpvalue_create_symbol("apache.org:selector-filter:string"), amqpvalue_create_string("correlation-id = '123'"));
+    source_set_filter(message_receiver, filter);
+
     if (session->getConnection()->isDebugOn()) {
         messagereceiver_set_trace(message_receiver, true);
     }

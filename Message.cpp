@@ -108,7 +108,6 @@ Message::Message()
     message_set_application_properties(message, application_properties);
     add_amqp_message_annotation(message, annotations_map);
 
-    // properties_set_group_sequence
     properties_handle = properties_create();
 }
 
@@ -238,7 +237,7 @@ void Message::setMessageHandler(MESSAGE_HANDLE message)
 // amqpvalue_get_properties
 void Message::setProperty(Php::Parameters &params)
 {
-    std::string* properties =  new std::string[13] {
+    std::string* properties = new std::string[13] {
         "message_id",
         "user_id",
         "to",
