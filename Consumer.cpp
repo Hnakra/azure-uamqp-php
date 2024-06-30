@@ -38,6 +38,20 @@ Consumer::Consumer(Session *session, std::string resourceName)
 
     // source = messaging_create_source(("amqps://" + session->getConnection()->getHost() + "/" + resourceName).c_str());
     source = messaging_create_source((resourceName).c_str());
+
+    auto filterSet = amqpvalue_create_filter_set(amqpvalue_create_map());
+
+    std::uint64_t timeNow = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    // std::string filterString = "amqp.annotation.x-opt-enqueuedtimeutc > " + std::to_string(timeNow);
+    std::string filterString = "correlation-id = '123'";
+    auto selectorFilterKey = amqpvalue_create_symbol("apache.org:selector-filter:string");
+    auto selectorKey = amqpvalue_create_symbol("apache.org:selector-filter:string");
+    auto filterEntryValue = amqpvalue_create_string(filterString.c_str());
+    auto filterEntry =  amqpvalue_create_described(selectorFilterKey, filterEntryValue);
+    amqpvalue_set_map_value(filterSet, selectorKey, filterEntry);
+
+    source_set_filter(source, filterSet);
+
     target = messaging_create_target("ingress-rx");
     link = link_create(session->getSessionHandler(), "receiver-link", role_receiver, source, target);
     link_set_rcv_settle_mode(link, receiver_settle_mode_first);
@@ -53,8 +67,10 @@ Consumer::Consumer(Session *session, std::string resourceName)
         throw Php::Exception("Could not create message receiver");
     }
 
-    AMQP_VALUE filter = amqpvalue_create_composite(amqpvalue_create_symbol("apache.org:selector-filter:string"), amqpvalue_create_string("correlation-id = '123'"));
-    source_set_filter(message_receiver, filter);
+/*    AMQP_VALUE filter = amqpvalue_create_composite(amqpvalue_create_symbol("apache.org:selector-filter:string"), amqpvalue_create_string("correlation-id = '123'"));
+    source_set_filter(message_receiver, filter);*/
+
+
 
     if (session->getConnection()->isDebugOn()) {
         messagereceiver_set_trace(message_receiver, true);
