@@ -11,11 +11,11 @@ private:
     AMQP_VALUE application_properties;
     AMQP_VALUE annotations_map;
     Php::Value applicationPropertiesMap;
-    PROPERTIES_HANDLE properties_handle;
 
 public:
     Message();
     virtual ~Message() = default;
+    PROPERTIES_HANDLE properties_handle;
 
     void setMessageHandler(MESSAGE_HANDLE message);
     MESSAGE_HANDLE getMessageHandler();
