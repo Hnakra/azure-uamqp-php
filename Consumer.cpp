@@ -41,7 +41,7 @@ Consumer::Consumer(Session *session, std::string resourceName)
 
     auto filterSet = amqpvalue_create_filter_set(amqpvalue_create_map());
 
-    std::uint64_t timeNow = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    // std::uint64_t timeNow = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     // std::string filterString = "amqp.annotation.x-opt-enqueuedtimeutc > " + std::to_string(timeNow);
     std::string filterString = "correlation-id = '123'";
     auto selectorFilterKey = amqpvalue_create_symbol("apache.org:selector-filter:string");
