@@ -31,7 +31,7 @@ static AMQP_VALUE on_message_received(const void* context, MESSAGE_HANDLE messag
     return messaging_delivery_accepted();
 }
 
-Consumer::Consumer(Session *session, std::string resourceName)
+Consumer::Consumer(Session *session, std::string resourceName, std::string filter)
 {
     this->session = session;
     this->resourceName = resourceName;
@@ -43,12 +43,12 @@ Consumer::Consumer(Session *session, std::string resourceName)
 
     // std::uint64_t timeNow = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     // std::string filterString = "amqp.annotation.x-opt-enqueuedtimeutc > " + std::to_string(timeNow);
-    std::string filterString = "amqp.correlation_id = '123'";
+    // std::string filterString = "amqp.correlation_id = '123'";
     // std::string filterString = "correlationId='123'";
 
     auto selectorFilterKey = amqpvalue_create_symbol("apache.org:selector-filter:string");
     auto selectorKey = amqpvalue_create_symbol("apache.org:selector-filter:string");
-    auto filterEntryValue = amqpvalue_create_string(filterString.c_str());
+    auto filterEntryValue = amqpvalue_create_string(filter.c_str());
     auto filterEntry =  amqpvalue_create_described(selectorFilterKey, filterEntryValue);
     amqpvalue_set_map_value(filterSet, selectorKey, filterEntry);
 

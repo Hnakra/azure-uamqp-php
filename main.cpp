@@ -27,7 +27,8 @@ extern "C" {
         connection.method<&Connection::setCallback>("setCallback", {
             Php::ByVal("resourceName", Php::Type::String),
             Php::ByVal("callback", Php::Type::Callable),
-            Php::ByVal("loopFn", Php::Type::Callable)
+            Php::ByVal("loopFn", Php::Type::Callable),
+            Php::ByVal("filter", Php::Type::String)
         });
         connection.method<&Connection::consume>("consume");
         connection.method<&Connection::close>("close");

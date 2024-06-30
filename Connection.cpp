@@ -85,8 +85,9 @@ void Connection::setCallback(Php::Parameters &params)
     std::string resourceName = params[0].stringValue();
     Php::Value callback = params[1];
     Php::Value loopFn = params[2];
+    std::string filter = params[3];
 
-    consumer = new Consumer(session, resourceName);
+    consumer = new Consumer(session, resourceName, filter);
     consumer->setCallback(callback, loopFn);
 }
 
