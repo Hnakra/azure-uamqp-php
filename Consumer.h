@@ -17,7 +17,7 @@ private:
     AMQP_VALUE target;
 
 public:
-    Consumer(Session *session, std::string resourceName);
+    Consumer(Session *session, std::string resourceName, std::string filter);
     virtual ~Consumer() = default;
 
     void setCallback(Php::Value &callback, Php::Value &loopFn);
