@@ -322,7 +322,6 @@ Php::Value getProperty(Php::Parameters &params)
     std::string key = params[0].stringValue();
 
     int numProperty = -1;
-    std::string key = params[0].stringValue();
     for (int i = 0; i < 13; i++) {
         if (propertyKeys[i] == key) {
             numProperty = i;
@@ -338,7 +337,7 @@ Php::Value getProperty(Php::Parameters &params)
     switch (numProperty) {
             case 0:
                 properties_get_message_id(properties_handle, &amqp_value);
-                amqpvalue_get_string(amqp_value_data, &string_value);
+                amqpvalue_get_string(amqp_value, &string_value);
                 result = string_value;
                 break;
             case 1:
