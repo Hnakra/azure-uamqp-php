@@ -98,7 +98,21 @@ static void add_amqp_message_annotation(MESSAGE_HANDLE message, AMQP_VALUE msg_a
 
 PROPERTIES_HANDLE properties_handle;
 
-std::string* propertyKeys;
+std::string* propertyKeys = new std::string[13] {
+    "message_id",
+    "user_id",
+    "to",
+    "subject",
+    "reply_to",
+    "correlation_id",
+    "content_type",
+    "content_encoding",
+    "absolute_expiry_time",
+    "creation_time",
+    "group_id",
+    "group_sequence",
+    "reply_to_group_id"
+};
 
 Message::Message()
 {
@@ -111,22 +125,6 @@ Message::Message()
     add_amqp_message_annotation(message, annotations_map);
 
     properties_handle = properties_create();
-
-    propertyKeys = new std::string[13] {
-                "message_id",
-                "user_id",
-                "to",
-                "subject",
-                "reply_to",
-                "correlation_id",
-                "content_type",
-                "content_encoding",
-                "absolute_expiry_time",
-                "creation_time",
-                "group_id",
-                "group_sequence",
-                "reply_to_group_id"
-            };
 }
 
 void Message::__construct(Php::Parameters &params)
