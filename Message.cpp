@@ -320,6 +320,8 @@ void Message::setProperty(Php::Parameters &params)
 
 Php::Value getProperty(Php::Parameters &params)
 {
+    return "123";
+
     std::string key = params[0].stringValue();
 
     std::string* propertyKeys = new std::string[13] {
