@@ -346,7 +346,15 @@ Php::Value getProperty(Php::Parameters &params)
         }
     }
 
-    AMQP_VALUE amqp_value;
+    AMQP_VALUE correlation_id_value;
+    uint64_t correlation_id;
+
+    properties_get_correlation_id(properties_handle, &correlation_id_value)
+    amqpvalue_get_ulong(correlation_id_value, &correlation_id)
+
+    return std::to_string(correlation_id);
+
+   /* AMQP_VALUE amqp_value;
     const char* string_value;
     int64_t timestamp_value;
     std::string result;
@@ -412,5 +420,5 @@ Php::Value getProperty(Php::Parameters &params)
         }
 
         amqpvalue_destroy(amqp_value);
-        return result;
+        return result;*/
 }
