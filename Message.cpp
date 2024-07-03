@@ -98,22 +98,6 @@ static void add_amqp_message_annotation(MESSAGE_HANDLE message, AMQP_VALUE msg_a
 
 PROPERTIES_HANDLE properties_handle;
 
-std::string* propertyKeys = new std::string[13] {
-    "message_id",
-    "user_id",
-    "to",
-    "subject",
-    "reply_to",
-    "correlation_id",
-    "content_type",
-    "content_encoding",
-    "absolute_expiry_time",
-    "creation_time",
-    "group_id",
-    "group_sequence",
-    "reply_to_group_id"
-};
-
 Message::Message()
 {
     message = message_create();
@@ -255,6 +239,23 @@ void Message::setProperty(Php::Parameters &params)
 {
     int numProperty = -1;
     std::string key = params[0].stringValue();
+
+    std::string* propertyKeys = new std::string[13] {
+        "message_id",
+        "user_id",
+        "to",
+        "subject",
+        "reply_to",
+        "correlation_id",
+        "content_type",
+        "content_encoding",
+        "absolute_expiry_time",
+        "creation_time",
+        "group_id",
+        "group_sequence",
+        "reply_to_group_id"
+    };
+
     for (int i = 0; i < 13; i++) {
         if (propertyKeys[i] == key) {
             numProperty = i;
@@ -320,6 +321,22 @@ void Message::setProperty(Php::Parameters &params)
 Php::Value getProperty(Php::Parameters &params)
 {
     std::string key = params[0].stringValue();
+
+    std::string* propertyKeys = new std::string[13] {
+        "message_id",
+        "user_id",
+        "to",
+        "subject",
+        "reply_to",
+        "correlation_id",
+        "content_type",
+        "content_encoding",
+        "absolute_expiry_time",
+        "creation_time",
+        "group_id",
+        "group_sequence",
+        "reply_to_group_id"
+    };
 
     int numProperty = -1;
     for (int i = 0; i < 13; i++) {
