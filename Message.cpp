@@ -349,8 +349,8 @@ Php::Value getProperty(Php::Parameters &params)
     AMQP_VALUE correlation_id_value;
     uint64_t correlation_id;
 
-    properties_get_correlation_id(properties_handle, &correlation_id_value)
-    amqpvalue_get_ulong(correlation_id_value, &correlation_id)
+    properties_get_correlation_id(properties_handle, &correlation_id_value);
+    amqpvalue_get_ulong(correlation_id_value, &correlation_id);
 
     return std::to_string(correlation_id);
 
