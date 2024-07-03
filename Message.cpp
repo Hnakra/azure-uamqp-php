@@ -312,11 +312,10 @@ void Message::setProperty(Php::Parameters &params)
 
 
 
-static Php::Value getPropertyKeys()
+/*static Php::Value getPropertyKeys()
 {
-    Php::Value result = propertyKeys;
-    return result;
-}
+    return propertyKeys;
+}*/
 
 Php::Value getProperty(Php::Parameters &params)
 {

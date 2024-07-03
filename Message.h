@@ -31,7 +31,7 @@ public:
     void setMessageAnnotation(Php::Parameters &params);
     void setProperty(Php::Parameters &params);
     Php::Value getProperty(Php::Parameters &params);
-    Php::Value getPropertyKeys();
+    //Php::Value getPropertyKeys();
 };
 
 #endif
