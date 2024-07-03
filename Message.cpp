@@ -316,7 +316,8 @@ void Message::setProperty(Php::Parameters &params)
 
 Php::Value getPropertyKeys()
 {
-    return propertyKeys;
+    Php::Value result = propertyKeys;
+    return result;
 }
 
 Php::Value getProperty(Php::Parameters &params)
