@@ -320,8 +320,8 @@ void Message::setProperty(Php::Parameters &params)
 
 Php::Value getProperty(Php::Parameters &params)
 {
-    return "123";
-
+    return params[0].stringValue();
+/*
     std::string key = params[0].stringValue();
 
     std::string* propertyKeys = new std::string[13] {
@@ -355,7 +355,7 @@ Php::Value getProperty(Php::Parameters &params)
     amqpvalue_get_ulong(correlation_id_value, &correlation_id);
 
     return std::to_string(correlation_id);
-
+*/
    /* AMQP_VALUE amqp_value;
     const char* string_value;
     int64_t timestamp_value;
