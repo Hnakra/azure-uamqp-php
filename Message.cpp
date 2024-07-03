@@ -309,6 +309,8 @@ void Message::setProperty(Php::Parameters &params)
         }
 }
 
+std::string* propertyKeys;
+
 Php::Value getPropertyKeys()
 {
     return propertyKeys;
