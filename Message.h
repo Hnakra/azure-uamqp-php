@@ -11,6 +11,7 @@ private:
     AMQP_VALUE application_properties;
     AMQP_VALUE annotations_map;
     Php::Value applicationPropertiesMap;
+    std::string* propertyKeys;
 
 public:
     Message();
@@ -29,6 +30,8 @@ public:
     Php::Value getMessageAnnotation(Php::Parameters &params);
     void setMessageAnnotation(Php::Parameters &params);
     void setProperty(Php::Parameters &params);
+    Php::Value getProperty(Php::Parameters &params);
+    Php::Value getPropertyKeys();
 };
 
 #endif

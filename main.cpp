@@ -62,6 +62,12 @@ extern "C" {
             Php::ByVal("value", Php::Type::String)
         });
 
+        message.method<&Message::setProperty>("getProperty", {
+            Php::ByVal("value", Php::Type::String)
+        });
+
+        message.method<&Message::getPropertyKeys>("getPropertyKeys");
+
         extension.add(std::move(connection));
         extension.add(std::move(message));
 

@@ -114,6 +114,21 @@ Message::Message()
 void Message::__construct(Php::Parameters &params)
 {
     setBody(params[0].stringValue());
+    propertyKeys = new std::string[13] {
+            "message_id",
+            "user_id",
+            "to",
+            "subject",
+            "reply_to",
+            "correlation_id",
+            "content_type",
+            "content_encoding",
+            "absolute_expiry_time",
+            "creation_time",
+            "group_id",
+            "group_sequence",
+            "reply_to_group_id"
+        };
 }
 
 Php::Value Message::getBody()
@@ -234,29 +249,13 @@ void Message::setMessageHandler(MESSAGE_HANDLE message)
 {
     this->message = message;
 }
-// amqpvalue_get_properties
+
 void Message::setProperty(Php::Parameters &params)
 {
-    std::string* properties = new std::string[13] {
-        "message_id",
-        "user_id",
-        "to",
-        "subject",
-        "reply_to",
-        "correlation_id",
-        "content_type",
-        "content_encoding",
-        "absolute_expiry_time",
-        "creation_time",
-        "group_id",
-        "group_sequence",
-        "reply_to_group_id"
-    };
-
     int numProperty = -1;
     std::string key = params[0].stringValue();
     for (int i = 0; i < 13; i++) {
-        if (properties[i] == key) {
+        if (propertyKeys[i] == key) {
             numProperty = i;
             break;
         }
@@ -308,4 +307,89 @@ void Message::setProperty(Php::Parameters &params)
                 properties_destroy(properties_handle);
                 throw Php::Exception("Property key is not exist");
         }
+}
+
+Php::Value getPropertyKeys()
+{
+    return propertyKeys;
+}
+
+Php::Value getProperty(Php::Parameters &params)
+{
+    std::string key = params[0].stringValue();
+
+    int numProperty = -1;
+    std::string key = params[0].stringValue();
+    for (int i = 0; i < 13; i++) {
+        if (propertyKeys[i] == key) {
+            numProperty = i;
+            break;
+        }
+    }
+
+    AMQP_VALUE amqp_value;
+    const char* string_value;
+    int64_t timestamp_value;
+    std::string result;
+
+    switch (numProperty) {
+            case 0:
+                properties_get_message_id(properties_handle, &amqp_value);
+                amqpvalue_get_string(amqp_value_data, &string_value);
+                result = string_value;
+                break;
+            case 1:
+                throw Php::Exception("Property key user_id is not supported, because this property need implementation amqp_binary type");
+                break;
+            case 2:
+                properties_get_to(properties_handle, &amqp_value);
+                amqpvalue_get_string(amqp_value, &string_value);
+                result = string_value;
+                break;
+            case 3:
+                properties_get_subject(properties_handle, &string_value);
+                result = string_value;
+                break;
+            case 4:
+                properties_get_reply_to(properties_handle, &amqp_value);
+                amqpvalue_get_string(amqp_value, &string_value);
+                result = string_value;
+                break;
+            case 5:
+                properties_get_correlation_id(properties_handle, &amqp_value);
+                amqpvalue_get_string(amqp_value, &string_value);
+                result = string_value;
+                break;
+            case 6:
+                properties_get_content_type(properties_handle, &string_value);
+                result = string_value;
+                break;
+            case 7:
+                properties_get_content_encoding(properties_handle, &string_value);
+                result = string_value;
+                break;
+            case 8:
+                properties_get_absolute_expiry_time(properties_handle, &timestamp_value);
+                result = std::to_string(timestamp_value);
+                break;
+            case 9:
+                properties_get_creation_time(properties_handle, &timestamp_value);
+                result = std::to_string(timestamp_value);
+                break;
+            case 10:
+                properties_get_group_id(properties_handle, &string_value);
+                result = string_value;
+                break;
+            case 11:
+                throw Php::Exception("Property key group_sequence is not supported, because this property need implementation sequence_no type");
+                break;
+            case 12:
+                properties_get_reply_to_group_id(properties_handle, &string_value);
+                result = string_value;
+                break;
+            default:
+                properties_destroy(properties_handle);
+                throw Php::Exception("Property key is not exist");
+        }
+        return result;
 }
