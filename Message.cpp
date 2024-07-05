@@ -356,13 +356,13 @@ Php::Value Message::getProperty(Php::Parameters &params)
     AMQP_VALUE amqp_value;
     const char* string_value;
     int64_t timestamp_value;
-    int64_t int_value;
+    uint64_t unsigned_int_value;
     std::string result;
 
     // ---
     properties_get_correlation_id(properties_handle, &amqp_value);
-    amqpvalue_get_ulong(amqp_value, &int_value);
-    result = int_value;
+    amqpvalue_get_ulong(amqp_value, &unsigned_int_value);
+    result = unsigned_int_value;
     // ---
 
     /*switch (numProperty) {
