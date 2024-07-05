@@ -320,9 +320,6 @@ void Message::setProperty(Php::Parameters &params)
 
 Php::Value Message::getProperty(Php::Parameters &params)
 {
-
-     return params[0].stringValue();
-/*
     std::string key = params[0].stringValue();
 
     std::string* propertyKeys = new std::string[13] {
@@ -349,15 +346,14 @@ Php::Value Message::getProperty(Php::Parameters &params)
         }
     }
 
-    AMQP_VALUE correlation_id_value;
+    /*AMQP_VALUE correlation_id_value;
     uint64_t correlation_id;
 
     properties_get_correlation_id(properties_handle, &correlation_id_value);
     amqpvalue_get_ulong(correlation_id_value, &correlation_id);
 
-    return std::to_string(correlation_id);
-*/
-   /* AMQP_VALUE amqp_value;
+    return std::to_string(correlation_id);*/
+    AMQP_VALUE amqp_value;
     const char* string_value;
     int64_t timestamp_value;
     std::string result;
@@ -423,5 +419,5 @@ Php::Value Message::getProperty(Php::Parameters &params)
         }
 
         amqpvalue_destroy(amqp_value);
-        return result;*/
+        return result;
 }
