@@ -356,9 +356,16 @@ Php::Value Message::getProperty(Php::Parameters &params)
     AMQP_VALUE amqp_value;
     const char* string_value;
     int64_t timestamp_value;
+    int64_t int_value;
     std::string result;
 
-    switch (numProperty) {
+    // ---
+    properties_get_correlation_id(properties_handle, &amqp_value);
+    amqpvalue_get_ulong(amqp_value, &int_value);
+    result = int_value;
+    // ---
+
+    /*switch (numProperty) {
             case 0:
                 properties_get_message_id(properties_handle, &amqp_value);
                 amqpvalue_get_string(amqp_value, &string_value);
@@ -417,7 +424,7 @@ Php::Value Message::getProperty(Php::Parameters &params)
                 properties_destroy(properties_handle);
                 throw Php::Exception("Property key is not exist");
         }
-
+*/
         amqpvalue_destroy(amqp_value);
         return result;
 }
