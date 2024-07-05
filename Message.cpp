@@ -361,9 +361,9 @@ Php::Value Message::getProperty(Php::Parameters &params)
 
     // ---
     if (properties_get_correlation_id(properties_handle, &amqp_value) != 0){
-        result = std::string('Error :(');
+        result = std::string("Error :(");
     } else {
-        result = std::string('Success :)');
+        result = std::string("Success :)");
         // result = std::string(amqpvalue_to_string(amqp_value));
     }
     // ---
