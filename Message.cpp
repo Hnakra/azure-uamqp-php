@@ -361,8 +361,7 @@ Php::Value Message::getProperty(Php::Parameters &params)
 
     // ---
     properties_get_correlation_id(properties_handle, &amqp_value);
-    amqpvalue_get_ulong(amqp_value, &unsigned_int_value);
-    result = std::to_string(unsigned_int_value);
+    result = amqpvalue_to_string(amqp_value);
     // ---
 
     /*switch (numProperty) {
