@@ -318,7 +318,7 @@ void Message::setProperty(Php::Parameters &params)
     return propertyKeys;
 }*/
 
-Php::Value getProperty(Php::Parameters &params)
+Php::Value Message::getProperty(Php::Parameters &params)
 {
     // body from getApplicationProperty() for tests
     std::string key = params[0].stringValue();
