@@ -360,9 +360,14 @@ Php::Value Message::getProperty(Php::Parameters &params)
     std::string result;
 
     // ---
-    properties_get_correlation_id(properties_handle, &amqp_value);
-    result = std::string(amqpvalue_to_string(amqp_value));
+    // properties_get_correlation_id(properties_handle, &amqp_value);
+    // result = std::string(amqpvalue_to_string(amqp_value));
     // ---
+
+    // -----
+    AMQP_TYPE amqp_type = amqpvalue_get_type(amqp_value);
+    result = amqp_type;
+    // -----
 
     /*switch (numProperty) {
             case 0:
