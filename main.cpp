@@ -63,7 +63,9 @@ extern "C" {
         });
 
         message.method<&Message::setProperty>("getProperty", {
-            Php::ByVal("value", Php::Type::String)
+            // Php::ByVal("value", Php::Type::String)
+            Php::ByVal("key", Php::Type::String),
+            Php::ByVal("type", Php::Type::String)
         });
 
        // message.method<&Message::getPropertyKeys>("getPropertyKeys");
