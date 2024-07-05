@@ -424,6 +424,6 @@ Php::Value Message::getProperty(Php::Parameters &params)
                 throw Php::Exception("Property key is not exist");
         }
 */
-        amqpvalue_destroy(amqp_value);
+     //   amqpvalue_destroy(amqp_value);
         return result;
 }
