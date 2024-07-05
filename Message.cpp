@@ -320,17 +320,8 @@ void Message::setProperty(Php::Parameters &params)
 
 Php::Value Message::getProperty(Php::Parameters &params)
 {
-    // body from getApplicationProperty() for tests
-    std::string key = params[0].stringValue();
 
-    if (application_properties_map == NULL) {
-        message_get_application_properties(message, &application_properties);
-        application_properties_map = amqpvalue_get_inplace_described_value(application_properties);
-    }
-
-    return get_value_from_map(application_properties_map, key.c_str(), params[1].stringValue().at(0));
-
-    // return params[0].stringValue();
+     return params[0].stringValue();
 /*
     std::string key = params[0].stringValue();
 
