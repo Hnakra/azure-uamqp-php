@@ -366,7 +366,7 @@ Php::Value Message::getProperty(Php::Parameters &params)
 
     // -----
     AMQP_TYPE amqp_type = amqpvalue_get_type(amqp_value);
-    result = amqp_type;
+    result = std::string(amqp_type);
     // -----
 
     /*switch (numProperty) {
