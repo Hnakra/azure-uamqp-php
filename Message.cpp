@@ -365,7 +365,7 @@ Php::Value Message::getProperty(Php::Parameters &params)
     // ---
 
     // -----
-    result = params[0].stringValue();
+    result = std::to_string(params[0]);
     // -----
 
     /*switch (numProperty) {
