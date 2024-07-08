@@ -136,7 +136,7 @@ Php::Value Message::getBody()
             if (strcmp(contentType, "4") == 0) {
                 const amqp_binary result;
                 amqpvalue_get_binary(body_data, &result);
-                body = result->bytes;
+                body = result.bytes;
             } else {
                 throw Php::Exception("Unvalid body type (content_type property)");
             }
