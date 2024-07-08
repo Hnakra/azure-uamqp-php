@@ -128,19 +128,21 @@ Php::Value Message::getBody()
         const char* contentType;
         properties_get_content_type(properties, &contentType);
 
-        if (strcmp(contentType, '3') == 0) {
+        if (strcmp(contentType, "3") == 0) {
             const char* result;
             amqpvalue_get_string(body_data, &result);
+            body = result;
         } else {
-            if (strcmp(contentType, '4') == 0) {
+            if (strcmp(contentType, "4") == 0) {
                 const void* result;
                 amqpvalue_get_binary(body_data, &result);
+                body = result;
             } else {
                 throw Php::Exception("Unvalid body type (content_type property)");
             }
         }
 
-        body = result;
+
     }
 
     return body;
