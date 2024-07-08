@@ -359,13 +359,24 @@ Php::Value Message::getProperty(Php::Parameters &params)
     uint64_t unsigned_int_value;
     std::string result;
 
-    // ---
-    if (properties_get_correlation_id(properties_handle, &amqp_value) != 0){
-        result = std::string("Error :(");
+    PROPERTIES_HANDLE properties;
+
+    // -------
+    if (message_get_properties(message, &properties) != 0){
+        result = std::string("message_get_properties - Error :(");
     } else {
-        result = std::string("Success :)");
+        result = std::string("message_get_properties - Success :)");
         // result = std::string(amqpvalue_to_string(amqp_value));
     }
+    // -------
+
+    // ---
+/*    if (properties_get_correlation_id(properties_handle, &amqp_value) != 0){
+        result = std::string("properties_get_correlation_id - Error :(");
+    } else {
+        result = std::string("properties_get_correlation_id - Success :)");
+        // result = std::string(amqpvalue_to_string(amqp_value));
+    }*/
     // ---
 
     // -----
