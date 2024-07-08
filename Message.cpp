@@ -122,12 +122,15 @@ Php::Value Message::getBody()
         AMQP_VALUE body_data;
         message_get_body_amqp_value_in_place(message, &body_data);
 
-        std::string contentType = getProperty('content_type');
-        if (contentType == '3') {
+        const char* contentType;
+        message_get_properties(message, &properties);
+        properties_get_content_type(properties, &contentType);
+
+        if (strcmp(contentType, '3') == 0) {
             const char* result;
             amqpvalue_get_string(body_data, &result);
         } else {
-            if (contentType == '4') {
+            if (strcmp(contentType, '4') == 0) {
                 const void* result;
                 amqpvalue_get_binary(body_data, &result);
             } else {
