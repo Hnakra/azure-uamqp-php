@@ -361,7 +361,7 @@ Php::Value Message::getProperty(Php::Parameters &params)
 
     PROPERTIES_HANDLE properties;
 
-    message_get_properties(message, &properties) != 0);
+    message_get_properties(message, &properties);
 
     // ---
     if (properties_get_correlation_id(properties, &amqp_value) != 0){
