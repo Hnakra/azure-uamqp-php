@@ -121,8 +121,16 @@ Php::Value Message::getBody()
     if (body.empty()) {
         AMQP_VALUE body_data;
         message_get_body_amqp_value_in_place(message, &body_data);
-        const char* result;
-        amqpvalue_get_string(body_data, &result);
+
+        std::string contentType = getProperty('content_type');
+        if (contentType == '3') {
+            const char* result;
+            amqpvalue_get_string(body_data, &result);
+        } else {
+            const void* result;
+            amqpvalue_get_binary(body_data, &result);
+        }
+
         body = result;
     }
 
@@ -320,6 +328,7 @@ void Message::setProperty(Php::Parameters &params)
 
 Php::Value Message::getProperty(Php::Parameters &params)
 {
+   //
     std::string key = params[0].stringValue();
 
     std::string* propertyKeys = new std::string[13] {
