@@ -26,6 +26,9 @@ static AMQP_VALUE on_message_received(const void* context, MESSAGE_HANDLE messag
     (void)context;
     Message *msg = new Message();
     msg->setMessageHandler(message);
+    if(message->properties == NULL) {
+            throw Php::Exception("Empty properties :(");
+    }
     (*callbackFn)(Php::Object("Azure\\uAMQP\\Message", msg));
 
     return messaging_delivery_accepted();
