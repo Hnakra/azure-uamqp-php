@@ -122,8 +122,10 @@ Php::Value Message::getBody()
         AMQP_VALUE body_data;
         message_get_body_amqp_value_in_place(message, &body_data);
 
-        const char* contentType;
+        PROPERTIES_HANDLE properties;
         message_get_properties(message, &properties);
+
+        const char* contentType;
         properties_get_content_type(properties, &contentType);
 
         if (strcmp(contentType, '3') == 0) {
