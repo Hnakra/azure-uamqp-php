@@ -365,10 +365,10 @@ Php::Value Message::getProperty(Php::Parameters &params)
 
     // ---
     if (properties_get_correlation_id(properties, &amqp_value) != 0){
-        result = std::string("properties_get_correlation_id - Error :(");
+        result = std::string("Value for correlation_id property is not exist");
     } else {
-        result = std::string("properties_get_correlation_id - Success :)");
-        // result = std::string(amqpvalue_to_string(amqp_value));
+        // result = std::string("properties_get_correlation_id - Success :)");
+        result = std::string(amqpvalue_to_string(amqp_value));
     }
     // ---
 
