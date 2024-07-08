@@ -127,8 +127,12 @@ Php::Value Message::getBody()
             const char* result;
             amqpvalue_get_string(body_data, &result);
         } else {
-            const void* result;
-            amqpvalue_get_binary(body_data, &result);
+            if (contentType == '4') {
+                const void* result;
+                amqpvalue_get_binary(body_data, &result);
+            } else {
+                throw Php::Exception("Unvalid body type (content_type property)");
+            }
         }
 
         body = result;
