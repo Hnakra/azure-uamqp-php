@@ -128,8 +128,7 @@ Php::Value Message::getBody()
         const char* contentType;
         properties_get_content_type(properties, &contentType);
 
-        const char* result;
-        amqpvalue_to_string(body_data, &result);
+        const char* result = amqpvalue_to_string(body_data);
         body = result;
 
       /*  if (strcmp(contentType, "3") == 0) {
