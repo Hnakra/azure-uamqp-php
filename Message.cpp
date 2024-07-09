@@ -122,23 +122,21 @@ void Message::__construct(Php::Parameters &params)
 Php::Value Message::getBody()
 {
     if (body.empty()) {
-        PROPERTIES_HANDLE properties;
-        message_get_properties(message, &properties);
-        const char* contentType;
-        properties_get_content_type(properties, &contentType);
 
-      //  if (strcmp(contentType, "4") == 0) {
+        if (message->body_amqp_value != NULL) {
+            AMQP_VALUE body_data;
+            message_get_body_amqp_value_in_place(message, &body_data);
+            const char* result = amqpvalue_to_string(body_data);
+            body = result;
+        } else if (message->body_amqp_data_count > 0) {
             BINARY_DATA body_data;
             message_get_body_amqp_data_in_place(message, 0, &body_data);
             for (size_t i = 0; i < body_data.length; ++i) {
                 body += (unsigned char)body_data.bytes[i];
             }
-/*        } else {
-            AMQP_VALUE body_data;
-            message_get_body_amqp_value_in_place(message, &body_data);
-            const char* result = amqpvalue_to_string(body_data);
-            body = result;
-        }*/
+        } else {
+            throw Php::Exception("Unsupported body type");
+        }
 
     }
 
