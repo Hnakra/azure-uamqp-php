@@ -148,7 +148,8 @@ void Message::__construct(Php::Parameters &params)
 Php::Value Message::getBody()
 {
     if (body.empty()) {
-        AMQP_VALUE body_data;
+        BINARY_DATA body_data;
+        // AMQP_VALUE body_data;
         // message_get_body_amqp_value_in_place(message, &body_data);
         message_get_body_amqp_data_in_place(message, &body_data);
 
