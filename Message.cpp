@@ -127,18 +127,18 @@ Php::Value Message::getBody()
         const char* contentType;
         properties_get_content_type(properties, &contentType);
 
-        if (strcmp(contentType, "4") == 0) {
+      //  if (strcmp(contentType, "4") == 0) {
             BINARY_DATA body_data;
             message_get_body_amqp_data_in_place(message, 0, &body_data);
             for (size_t i = 0; i < body_data.length; ++i) {
                 body += (unsigned char)body_data.bytes[i];
             }
-        } else {
+/*        } else {
             AMQP_VALUE body_data;
             message_get_body_amqp_value_in_place(message, &body_data);
             const char* result = amqpvalue_to_string(body_data);
             body = result;
-        }
+        }*/
 
     }
 
