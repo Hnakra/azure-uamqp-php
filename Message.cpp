@@ -135,7 +135,7 @@ Php::Value Message::getBody()
 
             for (unsigned int i = 0; i < result_binary.length; i++)
             {
-                result = result + *((unsigned char)(result_binary.bytes)[i]);
+                result = result + ((unsigned char)(result_binary.bytes[i]));
                 // string_concat(&result, ((unsigned char*)result_binary.bytes)[i]);
             }
             body = result.bytes;
