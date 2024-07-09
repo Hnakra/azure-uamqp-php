@@ -129,7 +129,7 @@ Php::Value Message::getBody()
         properties_get_content_type(properties, &contentType);
 
         if (strcmp(contentType, "4") == 0) {
-            char* result = "";
+            char* result = '';
             amqp_binary result_binary;
             amqpvalue_get_binary(body_data, &result_binary);
 
