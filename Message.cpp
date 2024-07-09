@@ -123,7 +123,9 @@ Php::Value Message::getBody()
 {
     if (body.empty()) {
         MESSAGE_BODY_TYPE body_type;
-        message_get_body_type(message, &body_type);
+        if (message_get_body_type(message, &body_type) != 0){
+            throw Php::Exception("message_get_body_type returns bad type!");
+        }
         if (body_type == MESSAGE_BODY_TYPE_VALUE) {
             AMQP_VALUE body_data;
             message_get_body_amqp_value_in_place(message, &body_data);
