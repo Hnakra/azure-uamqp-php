@@ -1,4 +1,7 @@
 #include "Message.h"
+#include <iostream>
+#include <string>
+#include <sstream>
 
 static Php::Value get_value_from_map(AMQP_VALUE map, const char* key, const char type)
 {
