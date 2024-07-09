@@ -124,12 +124,12 @@ Php::Value Message::getBody()
     if (body.empty()) {
         MESSAGE_BODY_TYPE body_type;
         message_get_body_type(message, &body_type);
-        if (body_type === MESSAGE_BODY_TYPE_VALUE) {
+        if (body_type == MESSAGE_BODY_TYPE_VALUE) {
             AMQP_VALUE body_data;
             message_get_body_amqp_value_in_place(message, &body_data);
             const char* result = amqpvalue_to_string(body_data);
             body = result;
-        } else if (body_type === MESSAGE_BODY_TYPE_DATA) {
+        } else if (body_type == MESSAGE_BODY_TYPE_DATA) {
             BINARY_DATA body_data;
             message_get_body_amqp_data_in_place(message, 0, &body_data);
             for (size_t i = 0; i < body_data.length; ++i) {
