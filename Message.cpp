@@ -129,7 +129,7 @@ Php::Value Message::getBody()
 
         if (strcmp(contentType, "4") == 0) {
             BINARY_DATA body_data;
-            message_get_body_amqp_data_in_place(message, 0, &binary_data);
+            message_get_body_amqp_data_in_place(message, 0, &body_data);
             for (size_t i = 0; i < binary_data.length; ++i) {
                 body += (unsigned char)binary_data.bytes[i];
             }
