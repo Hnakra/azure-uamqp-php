@@ -130,6 +130,7 @@ Php::Value Message::getBody()
             const char* result = amqpvalue_to_string(body_data);
             body = result;
         } else if (body_type == MESSAGE_BODY_TYPE_DATA) {
+            throw Php::Exception("Wow! Its Binary Type!");
             BINARY_DATA body_data;
             message_get_body_amqp_data_in_place(message, 0, &body_data);
             for (size_t i = 0; i < body_data.length; ++i) {
