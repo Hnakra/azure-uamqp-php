@@ -96,7 +96,7 @@ static void add_amqp_message_annotation(MESSAGE_HANDLE message, AMQP_VALUE msg_a
     annotations_destroy(msg_annotations);
 }
 
-static std::string* explode(const std::string& str, char delimiter, uint64_t& size) {
+std::string* explode(const std::string& str, char delimiter, uint64_t& size) {
     uint64_t count = 1;
     for (char c : str) {
         if (c == delimiter) {
