@@ -117,7 +117,7 @@ static std::string* explode(const std::string& str, char delimiter, uint64_t* si
     }
     result[index] = str.substr(startPos);
 
-    size = count;
+    size = &count;
 
     return result;
 }
