@@ -130,7 +130,7 @@ Php::Value Message::getBody()
 
         if (strcmp(contentType, "4") == 0) {
             const char* result = "";
-            const amqp_binary result_binary = NULL;
+            amqp_binary result_binary;
             amqpvalue_get_binary(body_data, &result_binary);
 
             for (unsigned int i = 0; i < result_binary.length; i++)
