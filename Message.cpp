@@ -168,7 +168,7 @@ Php::Value Message::getBody()
                 ss >> result;
                 body += (unsigned char)result;
             }
-            delete *binaryStrings;
+            delete[] binaryStrings;
 
         } else {
             body = result;
