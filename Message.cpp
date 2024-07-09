@@ -106,9 +106,10 @@ static std::string* explode(const std::string& str, char delimiter, uint64_t& si
 
     std::string* result = new std::string[count];
 
-    int startPos = 0;
-    int index = 0;
-    for (int i = 0; i < str.length(); i++) {
+    uint64_t startPos = 0;
+    uint64_t index = 0;
+    uint64_t length = str.length();
+    for (uint64_t i = 0; i < length; i++) {
         if (str[i] == delimiter) {
             result[index++] = str.substr(startPos, i - startPos);
             startPos = i + 1;
