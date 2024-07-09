@@ -96,6 +96,31 @@ static void add_amqp_message_annotation(MESSAGE_HANDLE message, AMQP_VALUE msg_a
     annotations_destroy(msg_annotations);
 }
 
+static std::string* explode(const std::string& str, char delimiter, uint64_t& size) {
+    int count = 1;
+    for (char c : str) {
+        if (c == delimiter) {
+            count++;
+        }
+    }
+
+    std::string* result = new std::string[count];
+
+    int startPos = 0;
+    int index = 0;
+    for (int i = 0; i < str.length(); i++) {
+        if (str[i] == delimiter) {
+            result[index++] = str.substr(startPos, i - startPos);
+            startPos = i + 1;
+        }
+    }
+    result[index] = str.substr(startPos);
+
+    size = count;
+
+    return result;
+}
+
 PROPERTIES_HANDLE properties_handle;
 
 Message::Message()
@@ -125,22 +150,27 @@ Php::Value Message::getBody()
         PROPERTIES_HANDLE properties;
         message_get_properties(message, &properties);
 
+        const char* result = amqpvalue_to_string(body_data);
+
         const char* contentType;
         properties_get_content_type(properties, &contentType);
 
         if (strcmp(contentType, "4") == 0) {
-            std::string result = "";
-            amqp_binary result_binary;
-            amqpvalue_get_binary(body_data, &result_binary);
+            uint64_t size;
+            std::string str = result;
+            std::string* binaryStrings = explode(str, ' ', &size);
+            free(result);
 
-            for (unsigned int i = 0; i < result_binary.length; i++)
-            {
-                result = result + ((unsigned char)(result_binary.bytes[i]));
-                // string_concat(&result, ((unsigned char*)result_binary.bytes)[i]);
+            for (uint64_t i = 0; i < size; i++) {
+                int result;
+                std::stringstream ss;
+                ss << std::hex << binaryStrings[i];
+                ss >> result;
+                body += (unsigned char)result;
             }
-            body = result.bytes;
+            delete *binaryStrings;
+
         } else {
-            const char* result = amqpvalue_to_string(body_data);
             body = result;
         }
 
