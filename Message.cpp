@@ -129,13 +129,13 @@ Php::Value Message::getBody()
         properties_get_content_type(properties, &contentType);
 
         if (strcmp(contentType, "4") == 0) {
-            char* result = '';
+            std::string result = "";
             amqp_binary result_binary;
             amqpvalue_get_binary(body_data, &result_binary);
 
             for (unsigned int i = 0; i < result_binary.length; i++)
             {
-                result = strcat(result, ((unsigned char*)result_binary.bytes)[i]);
+                result = result + ((unsigned char*)result_binary.bytes)[i];
                 // string_concat(&result, ((unsigned char*)result_binary.bytes)[i]);
             }
             body = result.bytes;
