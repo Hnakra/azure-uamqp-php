@@ -160,7 +160,6 @@ Php::Value Message::getBody()
             uint64_t size;
             std::string str = result;
             std::string* binaryStrings = explode(str, ' ', &size);
-            free(result);
 
             for (uint64_t i = 0; i < size; i++) {
                 int result;
