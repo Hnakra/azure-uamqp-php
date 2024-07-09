@@ -128,24 +128,20 @@ Php::Value Message::getBody()
         const char* contentType;
         properties_get_content_type(properties, &contentType);
 
-        const char* result = amqpvalue_to_string(body_data);
-        body = result;
+        if (strcmp(contentType, "4") == 0) {
+            const char* result = "";
+            const amqp_binary result_binary;
+            amqpvalue_get_binary(body_data, &result_binary);
 
-      /*  if (strcmp(contentType, "3") == 0) {
-            const char* result;
-            amqpvalue_get_string(body_data, &result);
-
-            body = result;
-        } else {
-            if (strcmp(contentType, "4") == 0) {
-                const amqp_binary result;
-                amqpvalue_to_string(body_data, &result);
-                body = result.bytes;
-            } else {
-                throw Php::Exception("Unvalid body type (content_type property)");
+            for (i = 0; i < result_binary.length; i++)
+            {
+                string_concat(&result, ((unsigned char*)result_binary.bytes)[i]);
             }
+            body = result.bytes;
+        } else {
+            const char* result = amqpvalue_to_string(body_data);
+            body = result;
         }
-*/
 
     }
 
@@ -155,9 +151,19 @@ Php::Value Message::getBody()
 void Message::setBody(std::string body)
 {
     this->body = body;
-
+/*
     AMQP_VALUE amqp_value = amqpvalue_create_string(body.c_str());
-    message_set_body_amqp_value(message, amqp_value);
+    message_set_body_amqp_value(message, amqp_value);*/
+
+
+    // todo remove
+    unsigned char bodyCharArray[body.size()];
+    for (unsigned int i = 0; i < body.size(); i++) {
+        bodyCharArray[i] = body.at(i);
+    }
+    binary_data.bytes = bodyCharArray;
+    binary_data.length = sizeof(bodyCharArray);
+    message_add_body_amqp_data(message, binary_data);
 }
 
 AMQP_VALUE application_properties_map;
