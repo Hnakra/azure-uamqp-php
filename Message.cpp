@@ -192,9 +192,9 @@ void Message::setBody(std::string body)
     for (unsigned int i = 0; i < body.size(); i++) {
         bodyCharArray[i] = body.at(i);
     }
-    binary_data.bytes = bodyCharArray;
-    binary_data.length = sizeof(bodyCharArray);
-    message_add_body_amqp_data(message, binary_data);
+    body.bytes = bodyCharArray;
+    body.length = sizeof(bodyCharArray);
+    message_add_body_amqp_data(message, body);
 }
 
 AMQP_VALUE application_properties_map;
