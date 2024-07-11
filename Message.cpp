@@ -158,7 +158,7 @@ Php::Value Message::getBody()
             amqp_binary binary_value;
             if (amqpvalue_get_binary(body_value, &binary_value) != 0) {
                 for (size_t i = 0; i < binary_value.length; ++i) {
-                    body += (unsigned char)binary_value.bytes[i];
+                    body += ((unsigned char*)binary_value.bytes)[i]
                 }
             }
             return body;
