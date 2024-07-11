@@ -119,11 +119,6 @@ void Message::__construct(Php::Parameters &params)
 Php::Value Message::getBody()
 {
     if (body.empty()) {
-        MESSAGE_BODY_TYPE body_type;
-        if (message_get_body_type(message, &body_type) != 0){
-            throw Php::Exception("message_get_body_type returns bad type!");
-        }
-
 /*        if (body_type == MESSAGE_BODY_TYPE_VALUE) {
             throw Php::Exception("body type = MESSAGE_BODY_TYPE_VALUE");
         }
@@ -131,7 +126,26 @@ Php::Value Message::getBody()
             throw Php::Exception("body type = MESSAGE_BODY_TYPE_DATA");
         }*/
 
-        if (body_type == MESSAGE_BODY_TYPE_VALUE) {
+        AMQP_VALUE body_value;
+
+        if (message_get_body_amqp_value_in_place(message, &body_value) != 0 ) {
+            BINARY_DATA body_data;
+
+            if (message_get_body_amqp_value_in_place(message, &body_data) != 0 ) {
+                throw Php::Exception("Unsupported body type");
+            }
+            for (size_t i = 0; i < body_data.length; ++i) {
+                body += (unsigned char)body_data.bytes[i];
+            }
+            return body;
+        }
+
+        const char* result = amqpvalue_to_string(body_data);
+        body = result;
+        return body;
+
+
+/*        if (body_type == MESSAGE_BODY_TYPE_VALUE) {
             AMQP_VALUE body_data;
             message_get_body_amqp_value_in_place(message, &body_data);
             AMQP_TYPE amqp_type = amqpvalue_get_type(body_data);
@@ -161,11 +175,11 @@ Php::Value Message::getBody()
             }
         } else {
             throw Php::Exception("Unsupported body type");
-        }
+        }*/
 
     }
 
-    return body;
+
 }
 
 void Message::setBody(std::string body)
