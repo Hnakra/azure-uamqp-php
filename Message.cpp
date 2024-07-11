@@ -189,20 +189,18 @@ Php::Value Message::getBody()
 void Message::setBody(std::string body)
 {
     this->body = body;
-/*
     AMQP_VALUE amqp_value = amqpvalue_create_string(body.c_str());
     message_set_body_amqp_value(message, amqp_value);
-    */
 
     // todo remove
-    unsigned char bodyCharArray[body.size()];
+ /*   unsigned char bodyCharArray[body.size()];
     for (unsigned int i = 0; i < body.size(); i++) {
         bodyCharArray[i] = body.at(i);
     }
     BINARY_DATA binary_data;
     binary_data.bytes = bodyCharArray;
     binary_data.length = sizeof(bodyCharArray);
-    message_add_body_amqp_data(message, binary_data);
+    message_add_body_amqp_data(message, binary_data);*/
 }
 
 AMQP_VALUE application_properties_map;
