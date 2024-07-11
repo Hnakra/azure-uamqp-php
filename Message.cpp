@@ -134,7 +134,7 @@ Php::Value Message::getBody()
         if (body_type == MESSAGE_BODY_TYPE_VALUE) {
             AMQP_VALUE body_data;
             message_get_body_amqp_value_in_place(message, &body_data);
-            AMQP_TYPE amqp_type = amqpvalue_get_type(amqp_value);
+            AMQP_TYPE amqp_type = amqpvalue_get_type(body_data);
 
             if (amqp_type == AMQP_TYPE_SYMBOL || amqp_type == AMQP_TYPE_STRING) {
                 const char* result = amqpvalue_to_string(body_data);
