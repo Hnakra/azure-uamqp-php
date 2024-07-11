@@ -127,11 +127,10 @@ Php::Value Message::getBody()
         }*/
 
         AMQP_VALUE body_value;
-
         if (message_get_body_amqp_value_in_place(message, &body_value) != 0 ) {
-            BINARY_DATA body_data;
 
-            if (message_get_body_amqp_value_in_place(message, &body_data) != 0 ) {
+            BINARY_DATA body_data;
+            if (message_get_body_amqp_data_in_place(message, 0, &body_data) != 0 ) {
                 throw Php::Exception("Unsupported body type");
             }
             for (size_t i = 0; i < body_data.length; ++i) {
