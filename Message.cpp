@@ -132,7 +132,7 @@ Php::Value Message::getBody()
         }*/
 
         AMQP_VALUE body_value;
-        if (message_get_body_amqp_value_in_place(message, &body_value) != 0 ) {
+        if (message_get_body_type(message, &body_type) != 0 && body_type == MESSAGE_BODY_TYPE_VALUE) {
 
             BINARY_DATA body_data;
             if (message_get_body_amqp_data_in_place(message, 0, &body_data) != 0 ) {
@@ -144,9 +144,25 @@ Php::Value Message::getBody()
             return body;
         }
 
-        const char* result = amqpvalue_to_string(body_value);
-        body = result;
-        return body;
+        message_get_body_amqp_value_in_place(message, &body_value);
+
+        AMQP_TYPE amqp_type = amqpvalue_get_type(body_data);
+        if (amqp_type == AMQP_TYPE_SYMBOL || amqp_type == AMQP_TYPE_STRING) {
+            const char* result = amqpvalue_to_string(body_value);
+            body = result;
+            return body;
+        }
+
+        if (amqp_type == AMQP_TYPE_BINARY) {
+            amqp_binary* binary_value;
+            if (amqpvalue_get_binary(body_value, &binary_value) != 0) {
+                for (size_t i = 0; i < binary_value.length; ++i) {
+                    body += (unsigned char)binary_value.bytes[i];
+                }
+            }
+            return body;
+        }
+
 
 
 /*        if (body_type == MESSAGE_BODY_TYPE_VALUE) {
