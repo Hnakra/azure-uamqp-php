@@ -132,7 +132,7 @@ Php::Value Message::getBody()
         }*/
 
         MESSAGE_BODY_TYPE body_type;
-        if (message_get_body_type(message, &body_type) != 0 && body_type == MESSAGE_BODY_TYPE_VALUE) {
+        if (message_get_body_type(message, &body_type) != 0 && body_type != MESSAGE_BODY_TYPE_VALUE) {
 
             BINARY_DATA body_data;
             if (message_get_body_amqp_data_in_place(message, 0, &body_data) != 0 ) {
