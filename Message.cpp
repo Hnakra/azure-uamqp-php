@@ -139,7 +139,7 @@ Php::Value Message::getBody()
             return body;
         }
 
-        const char* result = amqpvalue_to_string(body_data);
+        const char* result = amqpvalue_to_string(body_value);
         body = result;
         return body;
 
