@@ -131,7 +131,7 @@ Php::Value Message::getBody()
             throw Php::Exception("body type = MESSAGE_BODY_TYPE_DATA");
         }*/
 
-        AMQP_VALUE body_value;
+        MESSAGE_BODY_TYPE body_type;
         if (message_get_body_type(message, &body_type) != 0 && body_type == MESSAGE_BODY_TYPE_VALUE) {
 
             BINARY_DATA body_data;
@@ -144,6 +144,7 @@ Php::Value Message::getBody()
             return body;
         }
 
+        AMQP_VALUE body_value;
         message_get_body_amqp_value_in_place(message, &body_value);
 
         AMQP_TYPE amqp_type = amqpvalue_get_type(body_data);
