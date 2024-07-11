@@ -119,6 +119,11 @@ void Message::__construct(Php::Parameters &params)
 Php::Value Message::getBody()
 {
     if (body.empty()) {
+/*        MESSAGE_BODY_TYPE body_type;
+        if (message_get_body_type(message, &body_type) != 0){
+            throw Php::Exception("message_get_body_type returns bad type!");
+        }*/
+
 /*        if (body_type == MESSAGE_BODY_TYPE_VALUE) {
             throw Php::Exception("body type = MESSAGE_BODY_TYPE_VALUE");
         }
