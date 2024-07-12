@@ -32,36 +32,38 @@ static AMQP_VALUE on_message_received(const void* context, MESSAGE_HANDLE messag
     return messaging_delivery_accepted();
 }
 
+static std::string trim(const std::string& str)
+{
+    size_t first = str.find_first_not_of(' ');
+    if (std::string::npos == first)
+    {
+        return str;
+    }
+    size_t last = str.find_last_not_of(' ');
+    return str.substr(first, (last - first + 1));
+}
+
 Consumer::Consumer(Session *session, std::string resourceName, std::string filter)
 {
     this->session = session;
     this->resourceName = resourceName;
 
-    // source = messaging_create_source(("amqps://" + session->getConnection()->getHost() + "/" + resourceName).c_str());
-    // source = messaging_create_source((resourceName).c_str());
+    if (trim(filter).empty()) {
+        source = messaging_create_source((resourceName).c_str());
+    } else {
+         auto filterSet = amqpvalue_create_filter_set(amqpvalue_create_map());
+        auto selectorFilterKey = amqpvalue_create_symbol("apache.org:selector-filter:string");
+        auto selectorKey = amqpvalue_create_symbol("apache.org:selector-filter:string");
 
-    auto filterSet = amqpvalue_create_filter_set(amqpvalue_create_map());
+        auto filterEntryValue = amqpvalue_create_string(filter.c_str());
+        auto filterEntry =  amqpvalue_create_described(selectorFilterKey, filterEntryValue);
+        amqpvalue_set_map_value(filterSet, selectorKey, filterEntry);
 
-    // std::uint64_t timeNow = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
-    // std::string filterString = "amqp.annotation.x-opt-enqueuedtimeutc > " + std::to_string(timeNow);
-    // std::string filterString = "amqp.correlation_id = '123'";
-    // std::string filterString = "correlationId='123'";
-
-
-    auto selectorFilterKey = amqpvalue_create_symbol("apache.org:selector-filter:string");
-    auto selectorKey = amqpvalue_create_symbol("apache.org:selector-filter:string");
-
-/*    auto selectorFilterKey = amqpvalue_create_symbol("apache.org:selector-filter:string");
-    auto selectorKey = amqpvalue_create_symbol("apache.org:selector-filter:string");*/
-
-    auto filterEntryValue = amqpvalue_create_string(filter.c_str());
-    auto filterEntry =  amqpvalue_create_described(selectorFilterKey, filterEntryValue);
-    amqpvalue_set_map_value(filterSet, selectorKey, filterEntry);
-
-    auto newSource = source_create();
-    source_set_address(newSource, amqpvalue_create_string((resourceName).c_str()));
-    source_set_filter(newSource, filterSet);
-    source = amqpvalue_create_source(newSource);
+        auto newSource = source_create();
+        source_set_address(newSource, amqpvalue_create_string((resourceName).c_str()));
+        source_set_filter(newSource, filterSet);
+        source = amqpvalue_create_source(newSource);
+    }
 
     target = messaging_create_target("ingress-rx");
     link = link_create(session->getSessionHandler(), "receiver-link", role_receiver, source, target);
@@ -77,11 +79,6 @@ Consumer::Consumer(Session *session, std::string resourceName, std::string filte
     if (message_receiver == NULL) {
         throw Php::Exception("Could not create message receiver");
     }
-
-/*    AMQP_VALUE filter = amqpvalue_create_composite(amqpvalue_create_symbol("apache.org:selector-filter:string"), amqpvalue_create_string("correlation-id = '123'"));
-    source_set_filter(message_receiver, filter);*/
-
-
 
     if (session->getConnection()->isDebugOn()) {
         messagereceiver_set_trace(message_receiver, true);
