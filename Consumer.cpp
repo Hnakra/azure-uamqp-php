@@ -47,8 +47,11 @@ Consumer::Consumer(Session *session, std::string resourceName, std::string filte
     // std::string filterString = "amqp.correlation_id = '123'";
     // std::string filterString = "correlationId='123'";
 
-    auto selectorFilterKey = amqpvalue_create_string("apache.org:selector-filter:string");
-    auto selectorKey = amqpvalue_create_string("apache.org:selector-filter:string");
+    // auto selectorFilterKey = amqpvalue_create_string("apache.org:selector-filter:string");
+    // auto selectorKey = amqpvalue_create_string("apache.org:selector-filter:string");
+    auto selectorFilterKey = amqpvalue_create_string("apache.org");
+    auto selectorKey = amqpvalue_create_string("selector");
+
     auto filterEntryValue = amqpvalue_create_string(filter.c_str());
     auto filterEntry =  amqpvalue_create_described(selectorFilterKey, filterEntryValue);
     amqpvalue_set_map_value(filterSet, selectorKey, filterEntry);
