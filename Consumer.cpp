@@ -32,23 +32,12 @@ static AMQP_VALUE on_message_received(const void* context, MESSAGE_HANDLE messag
     return messaging_delivery_accepted();
 }
 
-static std::string trim(const std::string& str)
-{
-    size_t first = str.find_first_not_of(' ');
-    if (std::string::npos == first)
-    {
-        return str;
-    }
-    size_t last = str.find_last_not_of(' ');
-    return str.substr(first, (last - first + 1));
-}
-
 Consumer::Consumer(Session *session, std::string resourceName, std::string filter)
 {
     this->session = session;
     this->resourceName = resourceName;
 
-    if (trim(filter).empty()) {
+    if (filter.empty()) {
         source = messaging_create_source((resourceName).c_str());
     } else {
          auto filterSet = amqpvalue_create_filter_set(amqpvalue_create_map());
