@@ -40,7 +40,7 @@ Consumer::Consumer(Session *session, std::string resourceName, std::string filte
     if (filter.empty()) {
         source = messaging_create_source((resourceName).c_str());
     } else {
-         auto filterSet = amqpvalue_create_filter_set(amqpvalue_create_map());
+        auto filterSet = amqpvalue_create_filter_set(amqpvalue_create_map());
         auto selectorFilterKey = amqpvalue_create_symbol("apache.org:selector-filter:string");
         auto selectorKey = amqpvalue_create_symbol("apache.org:selector-filter:string");
 

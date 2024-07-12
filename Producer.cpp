@@ -36,7 +36,6 @@ Producer::Producer(Session *session, std::string resourceName)
     this->resourceName = resourceName;
 
     source = messaging_create_source("ingress");
-    // target = messaging_create_target(("amqps://" + session->getConnection()->getHost() + "/" + resourceName).c_str());
     target = messaging_create_target((resourceName).c_str());
     link = link_create(session->getSessionHandler(), "sender-link", role_sender, source, target);
     link_set_snd_settle_mode(link, sender_settle_mode_unsettled);

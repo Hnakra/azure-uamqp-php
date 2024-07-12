@@ -154,9 +154,7 @@ Php::Value Message::getBody()
 
             return body;
         }
-
     }
-
 
 }
 
