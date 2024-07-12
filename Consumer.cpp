@@ -48,8 +48,8 @@ Consumer::Consumer(Session *session, std::string resourceName, std::string filte
     // std::string filterString = "correlationId='123'";
 
 
-    auto selectorFilterKey = amqpvalue_create_symbol("apache.org:selector-filter:string");
-    auto selectorKey = amqpvalue_create_symbol("apache.org:selector-filter:string");
+    auto selectorFilterKey = amqpvalue_create_symbol("org.apache.activemq.artemis:selector-filter:string");
+    auto selectorKey = amqpvalue_create_symbol("org.apache.activemq.artemis:selector-filter:string");
 
 /*    auto selectorFilterKey = amqpvalue_create_symbol("apache.org:selector-filter:string");
     auto selectorKey = amqpvalue_create_symbol("apache.org:selector-filter:string");*/
