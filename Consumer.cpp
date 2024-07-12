@@ -49,8 +49,8 @@ Consumer::Consumer(Session *session, std::string resourceName, std::string filte
 
     // auto selectorFilterKey = amqpvalue_create_string("apache.org:selector-filter:string");
     // auto selectorKey = amqpvalue_create_string("apache.org:selector-filter:string");
-    auto selectorFilterKey = amqpvalue_create_string("apache.org");
-    auto selectorKey = amqpvalue_create_string("selector");
+    auto selectorFilterKey = amqpvalue_create_symbol("apache.org:selector-filter:string");
+    auto selectorKey = amqpvalue_create_symbol("apache.org:selector-filter:string");
 
     auto filterEntryValue = amqpvalue_create_string(filter.c_str());
     auto filterEntry =  amqpvalue_create_described(selectorFilterKey, filterEntryValue);
